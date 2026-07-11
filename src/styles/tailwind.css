@@ -1,0 +1,258 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+JP:wght@400;500&display=swap");
+
+:root {
+  --color-bg: #e6c79a;
+  --color-bg-grain: #b98a54;
+  --color-card: #f6efde;
+  --color-ink: #2b2620;
+  --color-accent: #c97b5a;
+  --color-accent-sub: #b08d57;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  color: var(--color-ink);
+  font-family: "Zen Maru Gothic", sans-serif;
+  background-color: var(--color-bg);
+  /* 木目調の固定背景：板目・柾目のうっすらとした線を重ねる。
+     後日Canva製の背景画像に差し替える場合はこのbackground-imageのみ変更すればよい。 */
+  background-image:
+    repeating-linear-gradient(
+      100deg,
+      rgba(185, 138, 84, 0.16) 0px,
+      rgba(185, 138, 84, 0.16) 2px,
+      transparent 2px,
+      transparent 34px
+    ),
+    repeating-linear-gradient(
+      100deg,
+      rgba(185, 138, 84, 0.08) 0px,
+      rgba(185, 138, 84, 0.08) 1px,
+      transparent 1px,
+      transparent 11px
+    ),
+    linear-gradient(160deg, #ecd3ac 0%, #e6c79a 45%, #dcb883 100%);
+  background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: "Shippori Mincho", serif;
+}
+
+.font-utility {
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+/* ------- 紙カード ------- */
+.paper-card {
+  background-color: var(--color-card);
+  border-radius: 14px;
+  box-shadow:
+    0 1px 2px rgba(43, 38, 32, 0.06),
+    0 8px 24px rgba(43, 38, 32, 0.12);
+}
+
+/* ------- インクブロブボタン ------- */
+.ink-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-card);
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 500;
+  padding: 0.85em 1.9em;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  isolation: isolate;
+  transition: transform 0.2s ease;
+}
+
+.ink-button svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  fill: var(--color-accent);
+  transition:
+    fill 0.25s ease,
+    filter 0.25s ease;
+}
+
+.ink-button:hover svg {
+  fill: #b3623f;
+  filter: drop-shadow(0 0 6px rgba(201, 123, 90, 0.35));
+}
+
+.ink-button:hover {
+  transform: translateY(-1px);
+}
+
+.ink-button:active {
+  transform: translateY(0);
+}
+
+.ink-button span {
+  position: relative;
+  z-index: 1;
+}
+
+/* ------- ブラシストローク区切り ------- */
+.brush-divider {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  margin: 0.5rem auto;
+  color: var(--color-accent-sub);
+}
+
+.brush-underline {
+  display: block;
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  color: var(--color-accent);
+}
+
+/* ------- タグ ------- */
+.tag {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.25em 0.9em;
+  font-size: 0.8rem;
+  font-family: "Noto Sans JP", sans-serif;
+  background: rgba(201, 123, 90, 0.14);
+  color: var(--color-accent);
+  border: 1px solid rgba(201, 123, 90, 0.35);
+}
+
+/* ------- フォーム部品 ------- */
+.field-input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(176, 141, 87, 0.45);
+  background: #fffdf8;
+  padding: 0.6em 0.9em;
+  color: var(--color-ink);
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 0.95rem;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(201, 123, 90, 0.18);
+}
+
+/* ------- ノースクロール ページ ------- */
+.no-scroll-page {
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------- トップページ クロスフェード ------- */
+.fade-layer {
+  position: fixed;
+  inset: 0;
+  transition: opacity 1s ease;
+}
+
+.fade-hero {
+  opacity: 1;
+  z-index: 2;
+}
+
+.fade-hero.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fade-main {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-main.is-visible {
+  opacity: 1;
+}
+
+/* ------- 記事本文 ------- */
+.prose-post h2 {
+  font-family: "Shippori Mincho", serif;
+  font-size: 1.35rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose-post h3 {
+  font-family: "Shippori Mincho", serif;
+  font-size: 1.15rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose-post p {
+  margin-bottom: 1.1em;
+}
+
+.prose-post a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose-post ul,
+.prose-post ol {
+  margin: 0 0 1.1em 1.4em;
+}
+
+.prose-post ul {
+  list-style: disc;
+}
+
+.prose-post ol {
+  list-style: decimal;
+}
+
+.prose-post blockquote {
+  border-left: 3px solid var(--color-accent-sub);
+  padding-left: 1em;
+  color: rgba(43, 38, 32, 0.75);
+  margin: 1.2em 0;
+}
+
+.prose-post img {
+  border-radius: 12px;
+  margin: 1.2em 0;
+}
+
+.prose-post code {
+  background: rgba(185, 138, 84, 0.15);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-layer {
+    transition: none;
+  }
+}

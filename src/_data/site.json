@@ -1,0 +1,10 @@
+{
+  "title": "りおちの趣味部屋",
+  "description": "創作、AI、観葉植物、コーヒー、学習…りおちの日々の書置きと、手作りのWebツールを並べた小さな部屋です。",
+  "url": "https://riochi-shumibeya.netlify.app",
+  "sns": [
+    { "label": "X (Twitter)", "url": "https://twitter.com/" },
+    { "label": "Instagram", "url": "https://instagram.com/" },
+    { "label": "note", "url": "https://note.com/" }
+  ]
+}

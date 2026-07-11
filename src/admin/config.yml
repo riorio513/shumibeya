@@ -1,0 +1,52 @@
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: simple
+media_folder: "src/assets/img/uploads"
+public_folder: "/assets/img/uploads"
+
+collections:
+  - name: "blog"
+    label: "りおちの書置き（ブログ）"
+    label_singular: "記事"
+    folder: "src/blog/posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: title
+    fields:
+      - { label: "レイアウト", name: "layout", widget: "hidden", default: "layouts/post.njk" }
+      - { label: "タイトル", name: "title", widget: "string" }
+      - { label: "公開日", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - label: "カテゴリー"
+        name: "category"
+        widget: "select"
+        options: ["創作", "AI", "観葉植物", "コーヒー", "学習", "その他"]
+      - { label: "サムネイル画像", name: "thumbnail", widget: "image", required: true }
+      - { label: "抜粋文（任意）", name: "excerpt", widget: "text", required: false }
+      - { label: "本文", name: "body", widget: "markdown" }
+
+  - name: "tools"
+    label: "りおちのおもちゃばこ（ツール紹介）"
+    label_singular: "ツール"
+    folder: "src/tools/items"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: name
+    fields:
+      - { label: "ツール名", name: "name", widget: "string" }
+      - label: "URLに使うスラッグ（英数字・半角ハイフンのみ）"
+        name: "slug"
+        widget: "string"
+        pattern: ['^[a-z0-9-]+$', "半角小文字・数字・ハイフンのみ使用できます"]
+      - label: "カテゴリー"
+        name: "category"
+        widget: "select"
+        options: ["配信支援", "創作支援", "園芸管理", "学習支援", "その他"]
+      - { label: "紹介コメント", name: "comment", widget: "text" }
+      - label: "埋め込み元URL（ツール本体のURL）"
+        name: "embedUrl"
+        widget: "string"
+        hint: "このURLは公開ページ上には直接表示されず、期限付きの一時URLに変換されて埋め込まれます"
+      - { label: "サムネイル画像", name: "thumbnail", widget: "image", required: false }
+      - { label: "公開日", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }

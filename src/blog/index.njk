@@ -1,0 +1,85 @@
+---
+layout: layouts/base.njk
+title: りおちの書置き
+description: 創作・AI・観葉植物・コーヒー・学習…りおちの日々の書置きブログ一覧
+permalink: /blog/
+eleventyExcludeFromCollections: true
+---
+<section class="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+  <div class="text-center mb-8">
+    <h1 class="font-display text-2xl sm:text-4xl">りおちの書置き</h1>
+    {% include "components/brush-underline.njk" %}
+  </div>
+
+  <div class="paper-card p-4 sm:p-5 mb-8 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+    <input id="search-input" type="search" placeholder="キーワードで検索…" class="field-input sm:max-w-xs" />
+    <div id="category-filters" class="flex flex-wrap gap-2 font-utility text-xs">
+      <button type="button" class="tag" data-category="all">すべて</button>
+      {% for c in categories %}
+        <button type="button" class="tag" data-category="{{ c }}">{{ c }}</button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div id="post-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    {% for post in collections.blogPosts %}
+      <a href="{{ post.url }}"
+         class="post-card paper-card overflow-hidden flex flex-col hover:-translate-y-0.5 transition-transform"
+         data-category="{{ post.data.category }}"
+         data-title="{{ post.data.title | lower }}"
+         data-excerpt="{{ (post.data.excerpt or '') | lower }}">
+        <img src="{{ post.data.thumbnail }}" alt="" class="w-full h-40 object-cover" />
+        <div class="p-4 flex flex-col gap-2 flex-1">
+          <span class="tag self-start">{{ post.data.category }}</span>
+          <h2 class="font-display text-lg leading-snug">{{ post.data.title }}</h2>
+          <p class="font-utility text-xs text-[var(--color-ink)]/65 line-clamp-2">
+            {{ post.data.excerpt or (post.templateContent | striptags | truncate(60)) }}
+          </p>
+          <span class="font-utility text-[11px] text-[var(--color-ink)]/50 mt-auto">{{ post.data.date | dateJa }}</span>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+
+  <p id="no-results" class="hidden text-center font-utility text-sm text-[var(--color-ink)]/60 mt-10">
+    該当する記事が見つかりませんでした。
+  </p>
+</section>
+
+<script>
+  (function () {
+    var cards = Array.prototype.slice.call(document.querySelectorAll(".post-card"));
+    var searchInput = document.getElementById("search-input");
+    var filterBtns = Array.prototype.slice.call(document.querySelectorAll("#category-filters .tag"));
+    var noResults = document.getElementById("no-results");
+    var activeCategory = "all";
+
+    function applyFilters() {
+      var keyword = searchInput.value.trim().toLowerCase();
+      var visibleCount = 0;
+      cards.forEach(function (card) {
+        var matchesCategory = activeCategory === "all" || card.dataset.category === activeCategory;
+        var matchesKeyword =
+          !keyword ||
+          card.dataset.title.indexOf(keyword) !== -1 ||
+          card.dataset.excerpt.indexOf(keyword) !== -1;
+        var visible = matchesCategory && matchesKeyword;
+        card.classList.toggle("hidden", !visible);
+        if (visible) visibleCount++;
+      });
+      noResults.classList.toggle("hidden", visibleCount !== 0);
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        activeCategory = btn.dataset.category;
+        filterBtns.forEach(function (b) {
+          b.classList.toggle("!bg-[var(--color-accent)]", b === btn);
+          b.classList.toggle("!text-[var(--color-card)]", b === btn);
+        });
+        applyFilters();
+      });
+    });
+  })();
+</script>

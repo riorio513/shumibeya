@@ -1,0 +1,99 @@
+---
+layout: layouts/base.njk
+title: りおちのおもちゃばこ
+description: りおちが作ったWebツールを、コメント付きで体験できるコーナーです。
+permalink: /tools/
+robotsNoAi: true
+eleventyExcludeFromCollections: true
+---
+<section class="max-w-5xl mx-auto px-4 sm:px-6 pb-16">
+  <div class="text-center mb-8">
+    <h1 class="font-display text-2xl sm:text-4xl">りおちのおもちゃばこ</h1>
+    {% include "components/brush-underline.njk" %}
+    <p class="font-utility text-xs sm:text-sm text-[var(--color-ink)]/70 max-w-xl mx-auto mt-2">
+      これまでに作ったWebツールを、コメントを添えて置いています。ここに表示されるのは見た目だけの体験版です。
+    </p>
+  </div>
+
+  <div class="flex flex-col gap-8">
+    {% for tool in collections.tools %}
+      <div class="paper-card p-4 sm:p-6">
+        <div class="flex flex-col sm:flex-row gap-4 sm:gap-6">
+          <div class="sm:w-56 shrink-0">
+            <img src="{{ tool.data.thumbnail or '/assets/img/sample-thumb-1.svg' }}" alt="" class="w-full h-32 sm:h-full object-cover rounded-card" />
+          </div>
+          <div class="flex-1 flex flex-col gap-2">
+            <span class="tag self-start">{{ tool.data.category }}</span>
+            <h2 class="font-display text-xl">{{ tool.data.name }}</h2>
+            <p class="font-utility text-sm text-[var(--color-ink)]/75 leading-relaxed">{{ tool.data.comment }}</p>
+            <div>
+              <button type="button" class="ink-button tool-launch-btn" data-slug="{{ tool.data.slug }}">
+                {% include "components/ink-blob.njk" %}
+                <span>体験してみる</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-embed-wrap hidden mt-5 rounded-card overflow-hidden border border-[var(--color-accent-sub)]/40 relative" data-slug-wrap="{{ tool.data.slug }}" oncontextmenu="return false;">
+          <p class="font-utility text-[11px] text-[var(--color-ink)]/50 px-3 py-2 bg-[var(--color-card)]">
+            ※ こちらは見た目のみの体験版です。データの保存や実際の配信連携は行われません。
+          </p>
+          <iframe
+            class="tool-embed-frame w-full"
+            style="height: 480px; border: none;"
+            sandbox="allow-scripts allow-same-origin allow-forms"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            title="{{ tool.data.name }} 体験版"
+          ></iframe>
+        </div>
+      </div>
+    {% else %}
+      <p class="font-utility text-sm text-[var(--color-ink)]/60 text-center">準備中です。もうしばらくお待ちください。</p>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+  (function () {
+    document.querySelectorAll(".tool-launch-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var slug = btn.dataset.slug;
+        var wrap = document.querySelector('.tool-embed-wrap[data-slug-wrap="' + slug + '"]');
+        if (!wrap) return;
+        var frame = wrap.querySelector(".tool-embed-frame");
+        wrap.classList.remove("hidden");
+        btn.disabled = true;
+
+        fetch("/.netlify/functions/embed-token?slug=" + encodeURIComponent(slug))
+          .then(function (res) {
+            if (!res.ok) throw new Error("token request failed");
+            return res.json();
+          })
+          .then(function (data) {
+            frame.src = data.url;
+            wrap.scrollIntoView({ behavior: "smooth", block: "center" });
+          })
+          .catch(function () {
+            wrap.innerHTML =
+              '<p class="font-utility text-sm text-[var(--color-ink)]/60 p-4">読み込みに失敗しました。時間をおいて再度お試しください。</p>';
+          })
+          .finally(function () {
+            btn.disabled = false;
+          });
+      });
+    });
+
+    /* 簡易的なコピー抑止（完全な防止を保証するものではありません） */
+    document.addEventListener("keydown", function (e) {
+      var blocked =
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && ["I", "J", "C"].indexOf(e.key.toUpperCase()) !== -1) ||
+        (e.ctrlKey && e.key.toUpperCase() === "U");
+      if (blocked && document.querySelector(".tool-embed-wrap:not(.hidden)")) {
+        e.preventDefault();
+      }
+    });
+  })();
+</script>

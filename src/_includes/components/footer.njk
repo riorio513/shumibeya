@@ -1,0 +1,10 @@
+<footer class="font-utility text-xs sm:text-sm text-[var(--color-ink)]/70">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <ul class="flex items-center gap-4">
+      {% for s in site.sns %}
+        <li><a href="{{ s.url }}" class="hover:text-[var(--color-accent)] transition-colors" target="_blank" rel="noopener noreferrer">{{ s.label }}</a></li>
+      {% endfor %}
+    </ul>
+    <p>&copy; {{ buildYear }} {{ site.title }}</p>
+  </div>
+</footer>

@@ -1,0 +1,50 @@
+<header class="fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between py-3 sm:py-4">
+      <a href="/" class="flex items-center gap-2 group">
+        <img src="/assets/svg/logo-mark.svg" alt="" width="34" height="34" class="shrink-0" />
+        <span class="font-display text-lg sm:text-xl tracking-wide text-[var(--color-ink)]">りおちの趣味部屋</span>
+      </a>
+
+      <button id="nav-toggle" class="sm:hidden font-utility text-sm border border-[var(--color-accent-sub)] rounded-full px-3 py-1" aria-expanded="false" aria-controls="nav-menu">
+        menu
+      </button>
+
+      <nav id="nav-menu" class="hidden sm:flex items-center gap-5 font-utility text-sm">
+        {% for item in nav %}
+          <a href="{{ item.url }}" class="relative text-[var(--color-ink)]/85 hover:text-[var(--color-accent)] transition-colors {% if page.url == item.url %}text-[var(--color-accent)]{% endif %}">
+            {{ item.label }}
+            {% if item.comingSoon %}
+              <span class="ml-1 align-middle text-[10px] tag !px-2 !py-0.5">Coming Soon</span>
+            {% endif %}
+          </a>
+        {% endfor %}
+      </nav>
+    </div>
+
+    <nav id="nav-menu-mobile" class="sm:hidden hidden flex-col gap-3 pb-4 font-utility text-sm">
+      {% for item in nav %}
+        <a href="{{ item.url }}" class="text-[var(--color-ink)]/85">
+          {{ item.label }}
+          {% if item.comingSoon %}
+            <span class="ml-1 align-middle text-[10px] tag !px-2 !py-0.5">Coming Soon</span>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </nav>
+  </div>
+</header>
+
+<script>
+  (function () {
+    var btn = document.getElementById("nav-toggle");
+    var menu = document.getElementById("nav-menu-mobile");
+    if (!btn || !menu) return;
+    btn.addEventListener("click", function () {
+      var isHidden = menu.classList.contains("hidden");
+      menu.classList.toggle("hidden");
+      menu.classList.toggle("flex");
+      btn.setAttribute("aria-expanded", String(isHidden));
+    });
+  })();
+</script>

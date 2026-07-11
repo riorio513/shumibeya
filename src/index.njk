@@ -1,0 +1,68 @@
+---
+layout: layouts/base.njk
+title: null
+description: null
+noScroll: true
+eleventyExcludeFromCollections: true
+---
+<div class="fade-layer fade-hero flex items-center justify-center px-6 text-center" id="hero-layer">
+  <div>
+    <img src="/assets/svg/logo-mark.svg" alt="" width="56" height="56" class="mx-auto mb-4" />
+    <h1 class="font-display text-3xl sm:text-5xl tracking-wide">りおちの趣味部屋</h1>
+  </div>
+</div>
+
+<div class="fade-layer fade-main" id="main-layer">
+  <div class="flex-1 flex flex-col min-h-0">
+    <div class="flex-1 min-h-0 max-w-6xl w-full mx-auto px-4 sm:px-6 flex flex-col justify-center gap-4 sm:gap-6 pb-2">
+
+      <div class="text-center">
+        <img src="/assets/svg/logo-mark.svg" alt="" width="40" height="40" class="mx-auto mb-2" />
+        <h1 class="font-display text-2xl sm:text-4xl tracking-wide">りおちの趣味部屋</h1>
+        {% include "components/brush-underline.njk" %}
+        <p class="font-utility text-xs sm:text-sm text-[var(--color-ink)]/75 max-w-xl mx-auto mt-2">
+          {{ site.description }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+        <a href="/blog/" class="paper-card p-4 sm:p-5 flex flex-col gap-2 hover:-translate-y-0.5 transition-transform">
+          <span class="font-display text-lg sm:text-xl">りおちの書置き</span>
+          <span class="font-utility text-xs text-[var(--color-ink)]/70">創作・AI・観葉植物…日々の書置きブログ</span>
+          {% if collections.blogPosts.length %}
+            <span class="font-utility text-[11px] text-[var(--color-accent)] mt-auto">最新：{{ collections.blogPosts[0].data.title }}</span>
+          {% endif %}
+        </a>
+        <a href="/tools/" class="paper-card p-4 sm:p-5 flex flex-col gap-2 hover:-translate-y-0.5 transition-transform">
+          <span class="font-display text-lg sm:text-xl">りおちのおもちゃばこ</span>
+          <span class="font-utility text-xs text-[var(--color-ink)]/70">作ったWebツールを、コメント付きで体験</span>
+        </a>
+        <a href="/monstera/" class="paper-card p-4 sm:p-5 flex flex-col gap-2 hover:-translate-y-0.5 transition-transform relative">
+          <span class="tag absolute top-3 right-3 !text-[9px]">Coming Soon</span>
+          <span class="font-display text-lg sm:text-xl">From Monstera</span>
+          <span class="font-utility text-xs text-[var(--color-ink)]/70">これから育っていくコミュニティの種</span>
+        </a>
+      </div>
+
+      <div class="flex justify-center">
+        <a href="/contact/" class="ink-button">
+          {% include "components/ink-blob.njk" %}
+          <span>お問い合わせはこちら</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var hero = document.getElementById("hero-layer");
+    var mainLayer = document.getElementById("main-layer");
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var delay = reduce ? 0 : 1000;
+    setTimeout(function () {
+      hero.classList.add("is-hidden");
+      mainLayer.classList.add("is-visible");
+    }, delay);
+  })();
+</script>

@@ -1,0 +1,7 @@
+[
+  { "label": "トップ", "url": "/" },
+  { "label": "りおちの書置き", "url": "/blog/" },
+  { "label": "りおちのおもちゃばこ", "url": "/tools/" },
+  { "label": "From Monstera", "url": "/monstera/", "comingSoon": true },
+  { "label": "お問い合わせ", "url": "/contact/" }
+]

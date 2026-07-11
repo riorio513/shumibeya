@@ -1,0 +1,29 @@
+{
+  "name": "shumibeya",
+  "version": "1.0.0",
+  "description": "りおちの趣味部屋 - ブログ・ツール紹介サイト",
+  "main": "index.js",
+  "scripts": {
+    "css": "tailwindcss -i ./src/styles/tailwind.css -o ./src/assets/css/style.css --minify",
+    "css:watch": "tailwindcss -i ./src/styles/tailwind.css -o ./src/assets/css/style.css --watch",
+    "tools-data": "node scripts/build-tools-data.js",
+    "clean": "node -e \"require('fs').rmSync('_site',{recursive:true,force:true})\"",
+    "eleventy": "eleventy",
+    "eleventy:watch": "eleventy --serve",
+    "build": "npm run clean && npm run tools-data && npm run css && eleventy",
+    "start": "npm run tools-data && npm run css && concurrently \"npm run css:watch\" \"eleventy --serve\"",
+    "preview": "npm run tools-data && npm run css && eleventy --serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6",
+    "autoprefixer": "^10.5.2",
+    "concurrently": "^9.2.4",
+    "gray-matter": "^4.0.3",
+    "postcss": "^8.5.16",
+    "tailwindcss": "^3.4.19"
+  }
+}

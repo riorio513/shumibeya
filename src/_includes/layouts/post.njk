@@ -1,0 +1,29 @@
+---
+layout: layouts/base.njk
+---
+<article class="max-w-3xl mx-auto px-4 sm:px-6 pb-16">
+  <div class="paper-card p-5 sm:p-10">
+    <p class="font-utility text-xs text-[var(--color-ink)]/60 mb-2">{{ date | dateJa }}</p>
+    <span class="tag mb-3 inline-block">{{ category }}</span>
+    <h1 class="font-display text-2xl sm:text-4xl leading-snug mb-2">{{ title }}</h1>
+    {% include "components/brush-underline.njk" %}
+
+    {% if thumbnail %}
+      <img src="{{ thumbnail }}" alt="" class="w-full rounded-card mt-6 mb-8 object-cover max-h-96" />
+    {% endif %}
+
+    <div class="prose-post font-body leading-relaxed text-[15px] sm:text-base">
+      {{ content | safe }}
+    </div>
+
+    <div class="mt-10 flex justify-center">
+      {% include "components/brush-divider.njk" %}
+    </div>
+    <div class="text-center">
+      <a href="/blog/" class="ink-button">
+        {% include "components/ink-blob.njk" %}
+        <span>書置き一覧へ戻る</span>
+      </a>
+    </div>
+  </div>
+</article>

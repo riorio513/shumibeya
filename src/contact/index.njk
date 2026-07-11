@@ -1,0 +1,96 @@
+---
+layout: layouts/base.njk
+title: お問い合わせ
+description: りおちの趣味部屋へのお問い合わせはこちらから。
+permalink: /contact/
+noScroll: true
+eleventyExcludeFromCollections: true
+---
+<section class="flex-1 flex flex-col min-h-0 max-w-2xl w-full mx-auto px-4 sm:px-6 pb-3">
+  <div class="text-center mb-3 sm:mb-4 shrink-0">
+    <h1 class="font-display text-xl sm:text-3xl">お問い合わせ</h1>
+    {% include "components/brush-underline.njk" %}
+  </div>
+
+  <div class="paper-card p-4 sm:p-6 flex-1 min-h-0 overflow-auto">
+    <form
+      id="contact-form"
+      action="https://formspree.io/f/YOUR_FORM_ID"
+      method="POST"
+      class="flex flex-col gap-3 font-utility text-sm"
+    >
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label for="name" class="block mb-1 text-xs text-[var(--color-ink)]/70">お名前 <span class="text-[var(--color-accent)]">*</span></label>
+          <input id="name" name="name" type="text" required class="field-input" />
+        </div>
+        <div>
+          <label for="email" class="block mb-1 text-xs text-[var(--color-ink)]/70">メールアドレス <span class="text-[var(--color-accent)]">*</span></label>
+          <input id="email" name="email" type="email" required class="field-input" />
+        </div>
+      </div>
+
+      <div>
+        <label for="type" class="block mb-1 text-xs text-[var(--color-ink)]/70">お問い合わせ種別 <span class="text-[var(--color-accent)]">*</span></label>
+        <select id="type" name="type" required class="field-input">
+          <option value="" disabled selected>選択してください</option>
+          <option value="ブログについて">ブログについて</option>
+          <option value="管理人について">管理人について</option>
+          <option value="営業">営業</option>
+          <option value="その他">その他</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="subject" class="block mb-1 text-xs text-[var(--color-ink)]/70">件名 <span class="text-[var(--color-accent)]">*</span></label>
+        <input id="subject" name="subject" type="text" required class="field-input" />
+      </div>
+
+      <div class="flex-1 flex flex-col min-h-0">
+        <label for="message" class="block mb-1 text-xs text-[var(--color-ink)]/70">本文 <span class="text-[var(--color-accent)]">*</span></label>
+        <textarea id="message" name="message" required rows="3" class="field-input flex-1 min-h-[70px] resize-none"></textarea>
+      </div>
+
+      <div class="flex justify-center pt-1">
+        <button type="submit" class="ink-button">
+          {% include "components/ink-blob.njk" %}
+          <span>送信する</span>
+        </button>
+      </div>
+    </form>
+
+    <div id="contact-thanks" class="hidden flex-col items-center justify-center text-center gap-3 h-full">
+      <p class="font-display text-lg sm:text-xl">お問い合わせありがとうございました</p>
+      <p class="font-utility text-xs sm:text-sm text-[var(--color-ink)]/70">内容を確認の上、りおちより返信いたします。</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var form = document.getElementById("contact-form");
+    var thanks = document.getElementById("contact-thanks");
+    if (!form) return;
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var data = new FormData(form);
+      fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      })
+        .then(function (res) {
+          if (res.ok) {
+            form.classList.add("hidden");
+            thanks.classList.remove("hidden");
+            thanks.classList.add("flex");
+          } else {
+            alert("送信に失敗しました。時間をおいて再度お試しください。");
+          }
+        })
+        .catch(function () {
+          alert("送信に失敗しました。通信環境をご確認ください。");
+        });
+    });
+  })();
+</script>
