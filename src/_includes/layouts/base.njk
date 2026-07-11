@@ -22,5 +22,24 @@
   </main>
 
   {% include "components/footer.njk" %}
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    (function () {
+      if (!window.netlifyIdentity) return;
+      window.netlifyIdentity.on("init", function (user) {
+        if (!user) {
+          window.netlifyIdentity.on("login", function () {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+      /* 招待・パスワード再設定メールのリンク（#invite_token= / #recovery_token=）を
+         どのページで開いても、自動的に設定モーダルを表示する */
+      if (/invite_token=|recovery_token=|confirmation_token=/.test(window.location.hash)) {
+        window.netlifyIdentity.open();
+      }
+    })();
+  </script>
 </body>
 </html>
