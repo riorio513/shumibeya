@@ -6,11 +6,11 @@
         <span class="font-display text-lg sm:text-xl tracking-wide text-[var(--color-ink)]">りおちの趣味部屋</span>
       </a>
 
-      <button id="nav-toggle" class="sm:hidden font-utility text-sm border border-[var(--color-accent-sub)] rounded-full px-3 py-1" aria-expanded="false" aria-controls="nav-menu">
+      <button id="nav-toggle" class="lg:hidden font-utility text-sm border border-[var(--color-accent-sub)] rounded-full px-3 py-1 shrink-0" aria-expanded="false" aria-controls="nav-menu">
         menu
       </button>
 
-      <nav id="nav-menu" class="hidden sm:flex items-center gap-5 font-utility text-sm">
+      <nav id="nav-menu" class="hidden lg:flex items-center gap-4 xl:gap-5 font-utility text-sm whitespace-nowrap">
         {% for item in nav %}
           <a href="{{ item.url }}" class="relative text-[var(--color-ink)]/85 hover:text-[var(--color-accent)] transition-colors {% if page.url == item.url %}text-[var(--color-accent)]{% endif %}">
             {{ item.label }}
@@ -22,7 +22,7 @@
       </nav>
     </div>
 
-    <nav id="nav-menu-mobile" class="sm:hidden hidden flex-col gap-3 pb-4 font-utility text-sm">
+    <nav id="nav-menu-mobile" class="lg:hidden hidden flex-col gap-3 pb-4 font-utility text-sm">
       {% for item in nav %}
         <a href="{{ item.url }}" class="text-[var(--color-ink)]/85">
           {{ item.label }}
